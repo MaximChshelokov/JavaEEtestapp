@@ -8,7 +8,7 @@ import java.util.GregorianCalendar;
 public class NewsBuilder {
 
     private News news;
-    public static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
     public NewsBuilder(long id, String title, Date date, String brief, String content) {
         news = new News();

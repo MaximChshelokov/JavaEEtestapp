@@ -1,6 +1,7 @@
 <%@tag description="Page template" pageEncoding="UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <%@attribute name="title" fragment="true" %>
 <%@attribute name="content" fragment="true" %>
 
@@ -42,37 +43,33 @@
 </head>
 
 <body>
-
-<div id="sitename">
-    <div class="width">
-        <h1><a href="#"> Title </a></h1>
-        <nav>
+<fmt:bundle basename="messages">
+    <div id="sitename">
+        <div class="width">
+            <h1><a href="#"><fmt:message key="application.title" /></a></h1>
+            <nav>
+                <ul>
+                    <c:set var="localeCode" value="${pageContext.response.locale}"/>
+                    <li ${localeCode=="ru"?"class='start selected'":"class='start'"}><a href="?lang=ru">Русский</a></li>
+                    <li ${localeCode=="en"?"class='end selected'":"class='end'"}><a href="?lang=en">English</a></li>
+                </ul>
+            </nav>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <header>
+        <div class="width">
+            <h2>
+                <jsp:invoke fragment="title"/>
+            </h2>
+        </div>
+    </header>
+    <section id="body" class="width clear">
+        <aside id="sidebar" class="column-left">
             <ul>
-                <c:set var="localeCode" value="${pageContext.response.locale}"/>
-                <li ${localeCode=="ru"?"class='start selected'":"class='start'"}><a href="?lang=ru">Русский</a></li>
-                <li ${localeCode=="en"?"class='end selected'":"class='end'"}><a href="?lang=en">English</a></li>
-            </ul>
-        </nav>
-        <div class="clear"></div>
-    </div>
-</div>
-<header>
-    <div class="width">
-        <h2>
-            <jsp:invoke fragment="title"/>
-        </h2>
-        <!--				<div class="tagline">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tristique neque at tellus interdum euismod. Quisque suscipit quam luctus quam elementum a molestie diam sollicitudin. Nam vehicula placerat mi, in mollis elit imperdiet in. Sed volutpat tincidunt sem at auctor</p>
-                        </div>
-                        -->
-    </div>
-</header>
-<section id="body" class="width clear">
-    <aside id="sidebar" class="column-left">
-        <ul>
-            <li>
-                <h4>Navigate</h4>
-                <!--
+                <li>
+                    <h4><fmt:message key="application.common.navigate" /></h4>
+                    <!--
                         <ul class="blocklist">
                             <c:forEach items="${navigationMenu}" var="menuItem">
                                 <c:url value="${menuItem.url}" var="menuUrl" context="true"/>
@@ -83,20 +80,21 @@
                         </ul>
                         -->
 
-            </li>
-        </ul>
-    </aside>
-    <section id="content" class="column-right">
+                </li>
+            </ul>
+        </aside>
+        <section id="content" class="column-right">
 
-        <jsp:invoke fragment="content"/>
+            <jsp:invoke fragment="content"/>
+        </section>
+
     </section>
-
-</section>
-<footer class="clear">
-    <div class="width">
-        <p class="left">&copy; 2018 Title.</p>
-        <p class="right"><a href="http://zypopwebtemplates.com/">Free CSS Templates</a> by ZyPOP</p>
-    </div>
-</footer>
+    <footer class="clear">
+        <div class="width">
+            <p class="left">&copy; 2018 <fmt:message key="application.title" />.</p>
+            <p class="right"><a href="http://zypopwebtemplates.com/">Free CSS Templates</a> by ZyPOP</p>
+        </div>
+    </footer>
+</fmt:bundle>
 </body>
 </html>
