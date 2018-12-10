@@ -8,14 +8,26 @@
         <module>domain</module>
         <module>view</module>
     </modules>
+    <properties>
+        <log4j.ver>2.11.1</log4j.ver>
+    </properties>
     <packaging>pom</packaging>
     <name>JavaEE-testapp</name>
     <dependencies>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j.ver}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>${log4j.ver}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>${log4j.ver}</version>
         </dependency>
     </dependencies>
 </project>

@@ -8,7 +8,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-@Named("NewsService")
+@Named
 @RequestScoped
 public class NewsServiceImpl implements NewsService {
 

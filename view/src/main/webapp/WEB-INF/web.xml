@@ -5,6 +5,9 @@
          http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
 
     <display-name>News application</display-name>
+    <welcome-file-list>
+        <welcome-file>/action/news-list</welcome-file>
+    </welcome-file-list>
     <jsp-config>
         <jsp-property-group>
             <url-pattern>*.jsp</url-pattern>
