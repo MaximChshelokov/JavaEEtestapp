@@ -2,15 +2,19 @@ package com.epam.javaee.controller;
 
 import com.epam.javaee.commands.Command;
 import com.epam.javaee.commands.CommandFactory;
+import org.apache.commons.beanutils.ConvertUtils;
+import org.apache.commons.beanutils.converters.DateConverter;
+import org.apache.commons.beanutils.converters.DateTimeConverter;
 import org.slf4j.Logger;
 
-import java.io.IOException;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Date;
 
 @WebServlet("/action/*")
 public class NewsController extends HttpServlet {
@@ -21,21 +25,31 @@ public class NewsController extends HttpServlet {
     private transient Logger log;
 
     @Override
-    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        String commandName = getCommandName(req.getPathInfo());
-        log.info(String.format("Request url: %s, Command invoked: %s", req.getRequestURI(), commandName));
-        Command command = commandFactory.getCommand(commandName);
-        if (command != null) {
-            req.getRequestDispatcher(getJspPath(command.getResponse(req))).forward(req, resp);
-        } else {
-            resp.sendError(resp.SC_NOT_FOUND);
-        }
+    public void init() throws ServletException {
+        super.init();
+        DateTimeConverter dtConverter = new DateConverter();
+        dtConverter.setPattern("yyyy-MM-dd");
+        ConvertUtils.register(dtConverter, Date.class);
     }
 
-    private String getCommandName(String requestUri) {
-        String[] pathElements = requestUri.split("/");
-        return pathElements[pathElements.length - 1];
+    @Override
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        String commandName = req.getPathInfo().replace("/", "");
+        log.info("Request url: {}, Command invoked: {}", req.getRequestURI(), commandName);
+        Command command = commandFactory.getCommand(commandName);
+        if (command != null) {
+            String response = command.getResponse(req);
+            if (response != null) {
+                req.getRequestDispatcher(getJspPath(response)).forward(req, resp);
+            } else {
+                log.warn("Wrong method: %s", req.getMethod());
+                resp.sendError(resp.SC_METHOD_NOT_ALLOWED);
+            }
+        } else {
+            log.error("Command not found");
+            resp.sendError(resp.SC_NOT_FOUND);
+        }
     }
 
     private String getJspPath(String jspName) {

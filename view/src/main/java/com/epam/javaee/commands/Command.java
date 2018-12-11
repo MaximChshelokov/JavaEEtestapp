@@ -8,6 +8,14 @@ public interface Command {
     String JSP_EDIT_NEWS = "edit-news";
     String JSP_NEWS_LIST = "news-list";
     String JSP_NEWS_VIEW = "news-view";
+    String NEWS = "news";
 
     String getResponse(HttpServletRequest request);
+
+    default long getPathVariable(String path, String commandName) {
+        String variable = path.substring(path.indexOf(commandName) + commandName.length());
+        if (variable.isEmpty())
+            return 0;
+        return Long.parseLong(variable);
+    }
 }

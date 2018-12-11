@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 @ApplicationScoped
 public class NewsListCommand implements Command {
 
+    public static final String COMMAND_NAME = "news-list";
+
     @Inject
     private NewsService newsService;
 
