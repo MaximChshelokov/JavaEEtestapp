@@ -46,7 +46,7 @@
 <fmt:bundle basename="messages">
     <div id="sitename">
         <div class="width">
-            <h1><a href="#"><fmt:message key="application.title" /></a></h1>
+            <h1><a href="#"><fmt:message key="application.title"/></a></h1>
             <nav>
                 <ul>
                     <c:set var="localeCode" value="${pageContext.response.locale}"/>
@@ -68,18 +68,23 @@
         <aside id="sidebar" class="column-left">
             <ul>
                 <li>
-                    <h4><fmt:message key="application.common.navigate" /></h4>
-                    <!--
-                        <ul class="blocklist">
-                            <c:forEach items="${navigationMenu}" var="menuItem">
-                                <c:url value="${menuItem.url}" var="menuUrl" context="true"/>
-                                <li ${fn:contains(pageContext.request.requestURL, menuItem.url)?"class='selected-item'":""}>
-                                    <a href="${base}/${menuUrl}"><spring:message code="${menuItem.name}" /></a>
-                                </li>
-                            </c:forEach>
-                        </ul>
-                        -->
-
+                    <h4><fmt:message key="application.common.navigate"/></h4>
+                    <ul class="blocklist">
+                            <%--@elvariable id="navigationMenu" type="java.util.List<Map<String, String>>"--%>
+                        <c:forEach items="${navigationMenu}" var="menuItem">
+                            <li ${fn:contains(pageContext.request.requestURL, menuItem.url)?"class='selected-item'":""}>
+                                <c:choose>
+                                    <c:when test="${menuItem.name == 'application.news-list.title'}">
+                                        <fmt:message key="application.news-list.title"
+                                                     var="menuItemName"/>
+                                    </c:when>
+                                    <c:otherwise><fmt:message key="application.add-news.title"
+                                                              var="menuItemName"/></c:otherwise>
+                                </c:choose>
+                                <a href="${base}/${menuItem.url}"><c:out value="${menuItemName}"/></a>
+                            </li>
+                        </c:forEach>
+                    </ul>
                 </li>
             </ul>
         </aside>
@@ -91,7 +96,7 @@
     </section>
     <footer class="clear">
         <div class="width">
-            <p class="left">&copy; 2018 <fmt:message key="application.title" />.</p>
+            <p class="left">&copy; 2018 <fmt:message key="application.title"/>.</p>
             <p class="right"><a href="http://zypopwebtemplates.com/">Free CSS Templates</a> by ZyPOP</p>
         </div>
     </footer>

@@ -1,0 +1,2 @@
+action/news-list application.news-list.title
+action/edit-news application.add-news.title

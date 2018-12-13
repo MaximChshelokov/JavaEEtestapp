@@ -3,15 +3,15 @@ package com.epam.javaee.dao;
 import com.epam.javaee.entity.News;
 import com.epam.javaee.entity.NewsBuilder;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Named;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Named;
 
 @Named
-@RequestScoped
+@ApplicationScoped
 public class TestDao implements Dao<News> {
 
     private Map<Long, News> base = new HashMap<>();
@@ -32,8 +32,9 @@ public class TestDao implements Dao<News> {
         if (news == null) {
             return false;
         }
-        base.put(nextId++, news);
         news.setId(nextId);
+        base.put(nextId++, news);
+        System.out.println(nextId);
         return true;
     }
 
