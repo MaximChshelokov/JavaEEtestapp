@@ -13,7 +13,7 @@ public interface Command {
     String getResponse(HttpServletRequest request);
 
     default long getPathVariable(String path, String commandName) {
-        String variable = path.substring(path.indexOf(commandName) + commandName.length());
+        String variable = path.substring(path.indexOf(commandName) + commandName.length()).replaceAll("/", "");
         if (variable.isEmpty())
             return 0;
         return Long.parseLong(variable);

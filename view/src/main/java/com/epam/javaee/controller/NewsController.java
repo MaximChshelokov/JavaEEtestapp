@@ -23,7 +23,7 @@ public class NewsController extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        String commandName = req.getPathInfo().replace("/", "");
+        String commandName = getCommandName(req.getPathInfo());
         log.info("Request url: {}, Command invoked: {}", req.getRequestURI(), commandName);
         Command command = commandFactory.getCommand(commandName);
         if (command != null) {
@@ -42,5 +42,14 @@ public class NewsController extends HttpServlet {
 
     private String getJspPath(String jspName) {
         return String.format("/WEB-INF/jsp/%s.jsp", jspName);
+    }
+
+    private String getCommandName(String path) {
+        String commandName = path.replaceFirst("/", "");
+        int secondSlashIndex = commandName.indexOf('/');
+        if (secondSlashIndex == -1)
+            return commandName;
+        else
+            return commandName.substring(0, secondSlashIndex);
     }
 }

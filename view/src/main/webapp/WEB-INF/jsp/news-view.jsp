@@ -15,8 +15,8 @@
                 </div>
                 <h5><c:out value="${news.brief}"/></h5>
                 <p><c:out value="${news.content}"/></p>
-                <c:url value="edit-news/${news.id}" var="editUrl"/>
-                <c:url value="delete-news/${news.id}" var="deleteUrl"/>
+                <c:url value="action/edit-news/${news.id}" var="editUrl"/>
+                <c:url value="action/delete-news/${news.id}" var="deleteUrl"/>
                 <a href="${base}/${editUrl}" class="button"><fmt:message key="application.news-list.edit"/></a>
                 <a href="${base}/${deleteUrl}" class="button button-reversed"><fmt:message
                         key="application.news-list.delete"/></a>
