@@ -10,7 +10,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; UTF-8"/>
     <title>Title</title>
-    <c:set var="base">
+    <c:set var="base" scope="request">
         ${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}
     </c:set>
     <link rel="stylesheet" href="${base}/css/styles.css" type="text/css"/>
