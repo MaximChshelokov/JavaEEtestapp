@@ -50,8 +50,8 @@
             <nav>
                 <ul>
                     <c:set var="localeCode" value="${pageContext.response.locale}"/>
-                    <li ${localeCode=="ru"?"class='start selected'":"class='start'"}><a href="?lang=ru">Русский</a></li>
-                    <li ${localeCode=="en"?"class='end selected'":"class='end'"}><a href="?lang=en">English</a></li>
+                    <li ${localeCode=="ru_RU"?"class='start selected'":"class='start'"}><a href="?lang=ru">Русский</a></li>
+                    <li ${localeCode=="en_US"?"class='end selected'":"class='end'"}><a href="?lang=en">English</a></li>
                 </ul>
             </nav>
             <div class="clear"></div>
