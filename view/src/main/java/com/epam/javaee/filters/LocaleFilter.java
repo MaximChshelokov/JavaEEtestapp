@@ -1,12 +1,14 @@
 package com.epam.javaee.filters;
 
 import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.jstl.core.Config;
 import java.io.IOException;
 import java.util.Locale;
 
+@WebFilter("/*")
 public class LocaleFilter implements Filter {
 
     private static final String RUSSIAN = "ru";
@@ -22,17 +24,7 @@ public class LocaleFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response,
                          FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
-        Cookie[] cookies = req.getCookies();
-        String localeString = null;
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if ("locale".equals(cookie.getName())) {
-                    localeString = cookie.getValue();
-                }
-            }
-        }
-
-
+        String localeString = req.getParameter("lang");
         String region = USA;
 
         if (RUSSIAN.equals(localeString)) {
