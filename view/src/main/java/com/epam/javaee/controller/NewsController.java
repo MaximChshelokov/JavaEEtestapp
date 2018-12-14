@@ -19,6 +19,7 @@ public class NewsController extends HttpServlet {
     private CommandFactory commandFactory;
     @Inject
     private transient Logger log;
+    private static final String REDIRECTION = "redirect:";
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -29,7 +30,11 @@ public class NewsController extends HttpServlet {
         if (command != null) {
             String response = command.getResponse(req);
             if (response != null) {
-                req.getRequestDispatcher(getJspPath(response)).forward(req, resp);
+                if (response.startsWith(REDIRECTION)) {
+                    resp.sendRedirect(req.getContextPath() + response.replace(REDIRECTION, ""));
+                } else {
+                    req.getRequestDispatcher(getJspPath(response)).forward(req, resp);
+                }
             } else {
                 log.warn("Wrong method: {}", req.getMethod());
                 resp.sendError(resp.SC_METHOD_NOT_ALLOWED);
@@ -47,9 +52,10 @@ public class NewsController extends HttpServlet {
     private String getCommandName(String path) {
         String commandName = path.replaceFirst("/", "");
         int secondSlashIndex = commandName.indexOf('/');
-        if (secondSlashIndex == -1)
+        if (secondSlashIndex == -1) {
             return commandName;
-        else
+        } else {
             return commandName.substring(0, secondSlashIndex);
+        }
     }
 }

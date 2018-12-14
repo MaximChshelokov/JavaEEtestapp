@@ -12,7 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 @ApplicationScoped
 public class AddNewsCommand implements Command {
 
+    @SuppressWarnings("WeakerAccess")
     public static final String COMMAND_NAME = "edit-news";
+    private static final String VIEW_REDIRECT = "redirect:/action/view-news/";
 
     @Inject
     NewsService newsService;
@@ -53,8 +55,7 @@ public class AddNewsCommand implements Command {
             newsService.updateNews(news);
         }
 
-        request.setAttribute(NEWS, news);
-        return JSP_NEWS_VIEW;
+        return VIEW_REDIRECT + news.getId();
     }
 
     private News getNewsEntity(HttpServletRequest request) {

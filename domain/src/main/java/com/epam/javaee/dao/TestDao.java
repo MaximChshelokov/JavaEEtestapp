@@ -34,7 +34,6 @@ public class TestDao implements Dao<News> {
         }
         news.setId(nextId);
         base.put(nextId++, news);
-        System.out.println(nextId);
         return true;
     }
 

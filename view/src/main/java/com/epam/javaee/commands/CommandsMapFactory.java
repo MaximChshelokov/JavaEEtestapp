@@ -14,13 +14,16 @@ public class CommandsMapFactory {
     private AddNewsCommand addNewsCommand;
     @Inject
     private ViewNewsCommand viewNewsCommand;
+    @Inject
+    private DeleteNewsCommand deleteNewsCommand;
 
     @Produces
     public Map<String, Command> getCommandsMap() {
         Map<String, Command> commandMap = new HashMap<>();
-        commandMap.put(newsListCommand.COMMAND_NAME, newsListCommand);
-        commandMap.put(addNewsCommand.COMMAND_NAME, addNewsCommand);
-        commandMap.put(viewNewsCommand.COMMAND_NAME, viewNewsCommand);
+        commandMap.put(NewsListCommand.COMMAND_NAME, newsListCommand);
+        commandMap.put(AddNewsCommand.COMMAND_NAME, addNewsCommand);
+        commandMap.put(ViewNewsCommand.COMMAND_NAME, viewNewsCommand);
+        commandMap.put(DeleteNewsCommand.COMMAND_NAME, deleteNewsCommand);
         return commandMap;
     }
 }
