@@ -25,18 +25,18 @@ public class News {
     @Column(name = "TITLE")
     @Size(min = 2,
         max = 60,
-        message = "{validation.title.size}")
+        message = "validation.title.size")
     private String title;
     @Column(name = "NEWS_DATE")
-    @Past(message = "{validation.date.past}")
+    @Past(message = "validation.date.past")
     private Date date;
     @Column(name = "BRIEF")
     @Size(min = 2,
         max = 200,
-        message = "{validation.brief.size}")
+        message = "validation.brief.size")
     private String brief;
     @Column(name = "CONTENT")
-    @Size(min = 2, max = 2000, message = "{validation.content.size}")
+    @Size(min = 2, max = 2000, message = "validation.content.size")
     private String content;
 
     public long getId() {

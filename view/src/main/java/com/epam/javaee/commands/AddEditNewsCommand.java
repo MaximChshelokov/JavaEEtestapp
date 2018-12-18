@@ -2,15 +2,16 @@ package com.epam.javaee.commands;
 
 import com.epam.javaee.entity.News;
 import com.epam.javaee.service.NewsService;
-import org.apache.commons.beanutils.BeanUtils;
-import org.slf4j.Logger;
-
+import com.epam.javaee.util.ConstraintsTranslator;
+import java.util.Map;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.beanutils.BeanUtils;
+import org.slf4j.Logger;
 
 @ApplicationScoped
-public class AddNewsCommand implements Command {
+public class AddEditNewsCommand implements Command {
 
     @SuppressWarnings("WeakerAccess")
     public static final String COMMAND_NAME = "edit-news";
@@ -20,6 +21,8 @@ public class AddNewsCommand implements Command {
     NewsService newsService;
     @Inject
     Logger log;
+    @Inject
+    ConstraintsTranslator constraintsTranslator;
 
     @Override
     public String getResponse(HttpServletRequest request) {
@@ -34,12 +37,13 @@ public class AddNewsCommand implements Command {
     }
 
     private String doGet(HttpServletRequest request) {
-//        String variable = request.getPathInfo().substring(request.getPathInfo().indexOf(COMMAND_NAME) + COMMAND_NAME.length());
-//        log.info("Elements: {} ", variable);
         long newsId = getPathVariable(request.getPathInfo(), COMMAND_NAME);
-        if (newsId == 0)
+        if (newsId == 0) {
             return JSP_ADD_NEWS;
-        request.setAttribute(NEWS, newsService.getNews(newsId));
+        }
+        if (request.getAttribute(NEWS) == null) {
+            request.setAttribute(NEWS, newsService.getNews(newsId));
+        }
         return JSP_EDIT_NEWS;
     }
 
@@ -47,7 +51,17 @@ public class AddNewsCommand implements Command {
         News news = getNewsEntity(request);
         log.info("Object from form data: {}", news);
 
+        Map violations = constraintsTranslator.translate(news);
+        log.info("Constraint violations: {}", violations);
+        // TODO: При повторной загрузке после ошибки валидации теряется значение pathVariable
         long newsId = getPathVariable(request.getPathInfo(), COMMAND_NAME);
+
+        if (!violations.isEmpty()) {
+            request.setAttribute("errors", violations);
+            request.setAttribute(NEWS, news);
+            return doGet(request);
+        }
+
         if (newsId == 0) {
             newsService.addNews(news);
         } else {

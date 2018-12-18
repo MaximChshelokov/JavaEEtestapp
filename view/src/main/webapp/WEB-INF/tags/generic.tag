@@ -1,9 +1,9 @@
-<%@tag description="Page template" pageEncoding="UTF-8" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ tag description="Page template" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
-<%@attribute name="title" fragment="true" %>
-<%@attribute name="content" fragment="true" %>
+<%@ attribute name="title" fragment="true" %>
+<%@ attribute name="content" fragment="true" %>
 
 <!doctype html>
 <html>
@@ -50,8 +50,11 @@
             <nav>
                 <ul>
                     <c:set var="localeCode" value="${pageContext.response.locale}"/>
-                    <li ${localeCode=="ru_RU"?"class='start selected'":"class='start'"}><a href="?lang=ru">Русский</a></li>
-                    <li ${localeCode=="en_US"?"class='end selected'":"class='end'"}><a href="?lang=en">English</a></li>
+                    <li ${localeCode=="ru"?"class='start selected'":"class='start'"}><a
+                        href="?lang=ru">Русский</a>
+                    </li>
+                    <li ${localeCode=="en"?"class='end selected'":"class='end'"}><a
+                        href="?lang=en">English</a></li>
                 </ul>
             </nav>
             <div class="clear"></div>
@@ -74,14 +77,16 @@
                         <c:forEach items="${navigationMenu}" var="menuItem">
                             <li ${fn:contains(pageContext.request.requestURL, menuItem.url)?"class='selected-item'":""}>
                                 <c:choose>
-                                    <c:when test="${menuItem.name == 'application.news-list.title'}">
+                                    <c:when
+                                        test="${menuItem.name == 'application.news-list.title'}">
                                         <fmt:message key="application.news-list.title"
                                                      var="menuItemName"/>
                                     </c:when>
                                     <c:otherwise><fmt:message key="application.add-news.title"
                                                               var="menuItemName"/></c:otherwise>
                                 </c:choose>
-                                <a href="${base}/${menuItem.url}"><c:out value="${menuItemName}"/></a>
+                                <a href="${base}/${menuItem.url}"><c:out
+                                    value="${menuItemName}"/></a>
                             </li>
                         </c:forEach>
                     </ul>
@@ -97,7 +102,8 @@
     <footer class="clear">
         <div class="width">
             <p class="left">&copy; 2018 <fmt:message key="application.title"/>.</p>
-            <p class="right"><a href="http://zypopwebtemplates.com/">Free CSS Templates</a> by ZyPOP</p>
+            <p class="right"><a href="http://zypopwebtemplates.com/">Free CSS Templates</a> by ZyPOP
+            </p>
         </div>
     </footer>
 </fmt:bundle>
