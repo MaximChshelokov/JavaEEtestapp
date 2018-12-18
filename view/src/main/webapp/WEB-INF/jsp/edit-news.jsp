@@ -15,23 +15,27 @@
                         <p>
                             <label for="title"><fmt:message key="application.common.title"/></label>
                             <input id="title" name="title" value="${news.title}"/>
-                            <errors path="title" class="error"/>
+                                <%--@elvariable id="errors" type="java.util.Map"--%>
+                            <c:out value="${errors['title']}"/>
                         </p>
                         <p>
                             <label for="date"><fmt:message key="application.common.date"/></label>
-                            <input type="date" name="date" id="date" value="${news.date}"/>
-                            <errors path="date" class="error"/>
+                            <input type="date" name="date" id="date"
+                                   value="<fmt:formatDate value='${news.date}' pattern='yyyy-MM-dd'/>"/>
+                            <c:out value="${errors['date']}"/>
                         </p>
                         <p>
                             <label for="brief"><fmt:message key="application.common.brief"/></label>
-                            <textarea id="brief" name="brief" cols="60" rows="5">${news.brief}</textarea><br/>
-                            <errors path="brief" class="error"/>
+                            <textarea id="brief" name="brief" cols="60"
+                                      rows="5">${news.brief}</textarea><br/>
+                            <c:out value="${errors['brief']}"/>
                         </p>
                         <p>
                             <label for="content"><fmt:message
-                                    key="application.common.content"/></label>
-                            <textarea id="content" name="content" cols="60" rows="10">${news.content}</textarea><br/>
-                            <errors path="content" class="error"/>
+                                key="application.common.content"/></label>
+                            <textarea id="content" name="content" cols="60"
+                                      rows="10">${news.content}</textarea><br/>
+                            <c:out value="${errors['content']}"/>
                         </p>
                         <p>
                             <fmt:message key="application.common.submit" var="submit"/>
@@ -40,6 +44,6 @@
                     </form>
                 </fieldset>
             </article>
-   </jsp:attribute>
+        </jsp:attribute>
     </t:generic>
 </fmt:bundle>
