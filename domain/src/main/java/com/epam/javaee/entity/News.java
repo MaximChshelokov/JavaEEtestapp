@@ -9,14 +9,17 @@ import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "NEWS")
 @NamedQuery(
-    name="findAllNews",
-    query="SELECT n FROM News n ORDER BY n.date")
+    name = "findAllNews",
+    query = "SELECT n FROM News n ORDER BY n.date desc")
+
 public class News {
 
     @Id
@@ -33,6 +36,7 @@ public class News {
     private String title;
     @Column(name = "NEWS_DATE")
     @Past(message = "validation.date.past")
+    @Temporal(TemporalType.DATE)
     private Date date;
     @Column(name = "BRIEF")
     @Size(min = 2,
@@ -40,7 +44,9 @@ public class News {
         message = "validation.brief.size")
     private String brief;
     @Column(name = "CONTENT")
-    @Size(min = 2, max = 2000, message = "validation.content.size")
+    @Size(min = 2,
+        max = 2000,
+        message = "validation.content.size")
     private String content;
 
     public long getId() {
