@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Past;
@@ -13,6 +14,9 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "NEWS")
+@NamedQuery(
+    name="findAllNews",
+    query="SELECT n FROM News n ORDER BY n.date")
 public class News {
 
     @Id

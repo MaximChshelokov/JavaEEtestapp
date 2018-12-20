@@ -10,8 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Named
-@ApplicationScoped
 public class TestDao implements Dao<News> {
 
     private Map<Long, News> base = new HashMap<>();
