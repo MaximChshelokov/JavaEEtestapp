@@ -28,6 +28,8 @@ public class HibernateJpaDao implements Dao<News> {
     @Inject
     private Logger log;
 
+    private static final String ROLLBACK_ERROR = "Error due rollback: {}";
+
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public boolean create(News news) {
@@ -36,7 +38,13 @@ public class HibernateJpaDao implements Dao<News> {
             entityManager.persist(news);
             entityManager.flush();
             userTransaction.commit();
-        } catch(Exception ex) {
+        } catch (Exception ex) {
+            try {
+                userTransaction.rollback();
+            } catch (Exception e) {
+                log.error(ROLLBACK_ERROR, e);
+                return false;
+            }
             log.error("Cannot create entity: {}", news);
             return false;
         }
@@ -65,7 +73,13 @@ public class HibernateJpaDao implements Dao<News> {
             newsToUpdate.setContent(news.getContent());
             entityManager.flush();
             userTransaction.commit();
-        } catch(Exception ex) {
+        } catch (Exception ex) {
+            try {
+                userTransaction.rollback();
+            } catch (Exception e) {
+                log.error(ROLLBACK_ERROR, e);
+                return false;
+            }
             log.error("Cannot update entity: {}", news);
             return false;
         }
@@ -81,7 +95,13 @@ public class HibernateJpaDao implements Dao<News> {
             entityManager.remove(news);
             entityManager.flush();
             userTransaction.commit();
-        } catch(Exception ex) {
+        } catch (Exception ex) {
+            try {
+                userTransaction.rollback();
+            } catch (Exception e) {
+                log.error(ROLLBACK_ERROR, e);
+                return false;
+            }
             log.error("Cannot delete entity with id: {}", id);
             return false;
         }
