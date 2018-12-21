@@ -53,7 +53,6 @@ public class AddEditNewsCommand implements Command {
 
         Map violations = constraintsTranslator.translate(news);
         log.info("Constraint violations: {}", violations);
-        // TODO: При повторной загрузке после ошибки валидации теряется значение pathVariable
         long newsId = getPathVariable(request.getPathInfo(), COMMAND_NAME);
 
         if (!violations.isEmpty()) {
