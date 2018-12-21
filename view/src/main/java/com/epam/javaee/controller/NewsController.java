@@ -20,7 +20,7 @@ public class NewsController extends HttpServlet {
     private CommandFactory commandFactory;
     @Inject
     private transient Logger log;
-    private static final String REDIRECTION = "redirect:";
+    public static final String REDIRECTION = "redirect:";
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp)

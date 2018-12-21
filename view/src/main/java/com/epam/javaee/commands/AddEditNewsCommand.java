@@ -1,5 +1,6 @@
 package com.epam.javaee.commands;
 
+import com.epam.javaee.controller.NewsController;
 import com.epam.javaee.entity.News;
 import com.epam.javaee.service.NewsService;
 import com.epam.javaee.util.ConstraintsTranslator;
@@ -15,7 +16,7 @@ public class AddEditNewsCommand implements Command {
 
     @SuppressWarnings("WeakerAccess")
     public static final String COMMAND_NAME = "edit-news";
-    private static final String VIEW_REDIRECT = "redirect:/action/view-news/";
+    private static final String VIEW_REDIRECT = NewsController.REDIRECTION + "/action/view-news/";
 
     @Inject
     NewsService newsService;
@@ -74,7 +75,7 @@ public class AddEditNewsCommand implements Command {
     private News getNewsEntity(HttpServletRequest request) {
         News news = new News();
         try {
-            BeanUtils.populate(news, request.getParameterMap());
+            BeanUtils.populate(news,  request.getParameterMap());
         } catch (Exception ex) {
             log.error("Failed to bind form data", ex);
         }
