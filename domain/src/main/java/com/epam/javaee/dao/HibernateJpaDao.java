@@ -1,6 +1,7 @@
 package com.epam.javaee.dao;
 
 import com.epam.javaee.entity.News;
+import org.slf4j.Logger;
 
 import java.util.List;
 import javax.ejb.TransactionAttribute;
@@ -23,7 +24,9 @@ public class HibernateJpaDao implements Dao<News> {
     @PersistenceContext(unitName = "news-persistence")
     private EntityManager entityManager;
     @Inject
-    UserTransaction userTransaction;
+    private UserTransaction userTransaction;
+    @Inject
+    private Logger log;
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
@@ -34,6 +37,7 @@ public class HibernateJpaDao implements Dao<News> {
             entityManager.flush();
             userTransaction.commit();
         } catch(Exception ex) {
+            log.error("Cannot create entity: {}", news);
             return false;
         }
         return true;
@@ -62,6 +66,7 @@ public class HibernateJpaDao implements Dao<News> {
             entityManager.flush();
             userTransaction.commit();
         } catch(Exception ex) {
+            log.error("Cannot update entity: {}", news);
             return false;
         }
         return true;
@@ -77,6 +82,7 @@ public class HibernateJpaDao implements Dao<News> {
             entityManager.flush();
             userTransaction.commit();
         } catch(Exception ex) {
+            log.error("Cannot delete entity with id: {}", id);
             return false;
         }
         return true;
