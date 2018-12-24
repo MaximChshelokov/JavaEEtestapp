@@ -1,19 +1,17 @@
 package com.epam.javaee.service;
 
-import com.epam.javaee.dao.Dao;
+import com.epam.javaee.dao.DaoLocal;
 import com.epam.javaee.entity.News;
 
 import java.util.List;
-import javax.enterprise.context.RequestScoped;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.inject.Named;
 
-@Named
-@RequestScoped
-public class NewsServiceImpl implements NewsService {
+@Stateless
+public class NewsServiceImpl implements NewsServiceLocal, NewsServiceRemote {
 
     @Inject
-    private Dao<News> newsDao;
+    private DaoLocal<News> newsDao;
 
     @Override
     public void addNews(News news) {

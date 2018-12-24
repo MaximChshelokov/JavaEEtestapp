@@ -3,21 +3,19 @@ package com.epam.javaee.dao;
 import com.epam.javaee.entity.News;
 
 import java.util.List;
+import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
-@Named
-@ApplicationScoped
+@Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-public class HibernateJpaDao implements Dao<News> {
+public class HibernateJpaDao implements DaoLocal<News>, DaoRemote<News> {
 
     @PersistenceContext(unitName = "news-persistence")
     private EntityManager entityManager;
