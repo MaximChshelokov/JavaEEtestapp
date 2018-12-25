@@ -1,0 +1,171 @@
+<!doctype html>
+<html ng-app="NewsManager">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; UTF-8"/>
+    <title>News manager</title>
+
+
+
+
+    <link rel="stylesheet" href="./css/styles.css" type="text/css"/>
+    <script src="./scripts/angular.js"></script>
+    <script src="./scripts/news.data.js"></script>
+    <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--
+    afflatus, a free CSS web template by ZyPOP (zypopwebtemplates.com/)
+
+    Download: http://zypopwebtemplates.com/
+
+    License: Creative Commons Attribution
+    //-->
+    <style>
+        .error {
+            font-size: 0.9em;
+            color: red;
+        }
+
+        .leftstr, .rightstr {
+            float: left;
+            width: 50%;
+        }
+
+        .rightstr {
+            text-align: right;
+        }
+    </style>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0"/>
+</head>
+
+<body>
+<div ng-controller="NewsController">
+
+    <div id="sitename">
+        <div class="width">
+            <h1><a href="#">{{messages['application.title']}}</a></h1>
+            <nav>
+                <ul>
+
+                    <li class="start {{ruClass}}"><a ng-click="changeLang('ru')">&#1056;&#1091;&#1089;&#1089;&#1082;&#1080;&#1081;</a></li>
+                    <li class="end {{enClass}}"><a ng-click="changeLang('en')">English</a></li>
+                </ul>
+            </nav>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <header>
+        <div class="width">
+            <h2>{{messages[currentTitle]}}</h2>
+        </div>
+    </header>
+    <section id="body" class="width clear">
+        <aside id="sidebar" class="column-left">
+            <ul>
+                <li>
+                    <h4>{{messages['application.common.navigate']}}</h4>
+                    <ul class="blocklist">
+                        <li class="{{form_class}}">
+                            <a ng-click="createNews()">{{messages['application.add-news.title']}}</a>
+                        </li>
+                        <li class="{{view_class}}">
+                            <a ng-click="getAllNews()">{{messages['application.news-list.title']}}</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </aside>
+        <section id="content" class="column-right">
+
+            <!--    View a news     -->
+            <div ng-if="view_visible === true">
+                <article class="expanded">
+                    <h2>{{news.title}}</h2>
+                    <div class="article-info">
+                        {{messages['application.news-list.posted']}}
+                        {{news.date | date: messages['application.common.date-format']}}
+                    </div>
+                    <h5>{{news.brief}}</h5>
+                    <p>{{news.content}}</p>
+                    <p><a ng-click="editNews(news.id)" class="button">{{messages['application.news-list.edit']}}</a>
+                        <a confirmed-click="deleteNews(news.id)" class="button button-reversed"
+                           ng-confirm-click="Are you sure you want to delete news?">
+                            {{messages['application.news-list.delete']}}</a></p>
+                </article>
+            </div>
+            <!--    Edit/add news   -->
+            <div ng-if="form_visible === true">
+                <article class="expanded">
+                    <fieldset>
+                        <form>
+                            <p>
+                                <label for="title">{{messages['application.common.title']}}</label>
+                                <input id="title" ng-model="news.title"/>
+                            <div ng-if="errors !== null" class="error">{{errors.title}}</div>
+                            </p>
+                            <p>
+                                <label for="date">{{messages['application.common.date']}}</label>
+                                <input type="date" id="date" ng-model="news.date"/>
+                            <div ng-if="errors !== null" class="error">{{errors.date}}</div>
+                            </p>
+                            <p>
+                                <label for="brief">{{messages['application.common.brief']}}</label>
+                                <textarea id="brief" cols="60" rows="5" ng-model="news.brief"></textarea><br/>
+                            <div ng-if="errors !== null" class="error">{{errors.brief}}</div>
+                            </p>
+                            <p>
+                                <label for="contents">{{messages['application.common.content']}}</label>
+                                <textarea id="contents" cols="60" rows="10" ng-model="news.content"></textarea><br/>
+                            <div ng-if="errors !== null" class="error">{{errors.content}}</div>
+                            </p>
+                            <div ng-if="news.id === 0">
+                                <a ng-click="addNews(news.title,news.date,news.brief,news.content)" class="button">
+                                    {{messages['application.common.submit']}}</a>
+                            </div>
+                            <div ng-if="news.id !== 0">
+                                <a ng-click="updateNews(news.id,news.title,news.date,news.brief,news.content)"
+                                   class="button">
+                                    {{messages['application.common.submit']}}</a>
+                            </div>
+                        </form>
+                    </fieldset>
+
+                </article>
+            </div>
+            <!--    News list   -->
+            <div ng-if="feed_visible === true">
+                <div ng-repeat="news in news_list">
+                    <article class="expanded">
+                        <h2>{{news.title}}</h2>
+                        <div class="article-info">
+                            {{messages['application.news-list.posted']}}
+                            {{news.date | date: messages['application.common.date-format']}}
+                        </div>
+                        <h5>{{news.brief}}</h5>
+                        <p>{{news.content}}</p>
+
+                        <div class="leftstr">
+                            <a ng-click="viewNews(news.id)" class="button">{{messages['application.news-list.view']}}</a>
+                        </div>
+                        <div class="rightstr">
+                            <a ng-click="editNews(news.id)" class="button">{{messages['application.news-list.edit']}}</a>
+                            <a confirmed-click="deleteNews(news.id)" class="button button-reversed"
+                               ng-confirm-click="Are you sure you want to delete news?">
+                                {{messages['application.news-list.delete']}}</a>
+                        </div>
+                        <div style="clear: left"></div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+    </section>
+    <footer class="clear">
+        <div class="width">
+            <p class="left">&copy; 2018 {{messages['application.title']}}.</p>
+            <p class="right"><a href="http://zypopwebtemplates.com/">Free CSS Templates</a> by ZyPOP</p>
+        </div>
+    </footer>
+</div>
+</body>
+</html>
