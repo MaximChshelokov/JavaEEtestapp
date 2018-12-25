@@ -35,6 +35,8 @@ public class HibernateJpaDao implements DaoLocal<News>, DaoRemote<News> {
     public boolean update(News news) {
 
         News newsToUpdate = read(news.getId());
+        if (news == null)
+            return false;
         newsToUpdate.setTitle(news.getTitle());
         newsToUpdate.setDate(news.getDate());
         newsToUpdate.setBrief(news.getBrief());
@@ -46,6 +48,8 @@ public class HibernateJpaDao implements DaoLocal<News>, DaoRemote<News> {
     @Override
     public boolean delete(long id) {
         News news = read(id);
+        if (news == null)
+            return false;
         entityManager.remove(news);
         entityManager.flush();
         return true;
